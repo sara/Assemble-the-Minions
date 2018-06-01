@@ -1,6 +1,6 @@
 #!venv/bin/python
 
-from xd import manager
+from minions import manager
 
 if __name__ == '__main__':
     manager.run()

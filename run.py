@@ -1,5 +1,5 @@
 #!venv/bin/python
-from xd import app, db
+from minions import app
 
 if __name__ == '__main__':
     app.run(debug=True)
