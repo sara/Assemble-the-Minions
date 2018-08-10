@@ -11,9 +11,22 @@ def process_request():
 	message_body = request.form['Body'].lower().split()
 	resp = MessagingResponse()
 	command = message_body[0]
+	print 'HINEINI'
 	if command.lower() == 'recruit':
-		return recruit_minions(message_body, resp)
+		resp.message("hello")#recruit_minions(message_body, resp)
+		return str(resp)
 	elif command.lower() == 'assemble':
+	    on_index = message_body.index("on")
+	    day_of_week = message_body[on_index+1]
+	    month = message_body[on_index+2]
+	    date = message_body[on_index+3]	
+	    time = message_body[on_index+5]    
+	    chosen_ones = []
+	    for i in range (1, on_index-1):
+		nerd = "%s %s" % (message_body[i], message_body[i+1])
+		chosen_ones.append(nerd)
+		i+= 1
+	    alert_the_chosen_ones(chosen_ones, day_of_week, month, date, time) 
 	    resp.message("Acknowledged, Chief Youth Inspirer")
 	return str(resp)
 
@@ -53,6 +66,9 @@ def get_eligible_minions(day, session_start, session_end):
 def get_nerd_metadata(nerd):
     return("{ rank: %s, ethinicity %s, gender: %s}"% (nerd.rank, nerd.ethnicity, nerd.gender))
 
-
-
+def alert_the_chosen_ones(squad, day_of_week, month, date, time): 
+    client = Client(account_sid, auth_token)
+    for nerd in squad:
+	mesage_body = "Hi %s, your services are needed for a virtual classroom visit! Are you free on %s %s %s at %s?" %(nerd, day_of_week, month, date, time) 
+        client.messages.create(to= nerd.phone, from_ = "+17327023043", body = message_body)
 
